@@ -1,0 +1,14 @@
+services:
+ postgres:
+    image: postgres:13
+    container_name: postgres-auth
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Postgres_9
+      POSTGRES_DB: authentication-service
+    ports:
+      - "5429:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+volumes:
+  postgres-data:
