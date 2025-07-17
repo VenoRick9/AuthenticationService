@@ -28,7 +28,7 @@ public class User {
     @NotBlank(message = "The login mustn't be empty")
     private String login;
     @Column(name = "password")
-    @NotBlank(message = "The login mustn't be empty")
     @Size(min = 4, max = 30, message = "The password must contain between 4 and 30 characters")
+    @NotBlank(message = "The password mustn't be empty")
     private String password;
 }
