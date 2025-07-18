@@ -1,6 +1,10 @@
 package by.baraznov.authenticationservice.securities;
 
 import by.baraznov.authenticationservice.models.User;
+import by.baraznov.authenticationservice.utils.JwtExpiredException;
+import by.baraznov.authenticationservice.utils.JwtMalformedException;
+import by.baraznov.authenticationservice.utils.JwtSignatureException;
+import by.baraznov.authenticationservice.utils.JwtValidationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -73,15 +77,14 @@ public class JwtProvider {
                     .parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException expEx) {
-            //TODO custom exceptions
+            throw new JwtExpiredException("Expired JWT token");
         } catch (SignatureException sEx) {
-            //TODO custom exceptions
+            throw new JwtSignatureException("Token signature is invalid");
         }  catch (MalformedJwtException mjEx) {
-            //TODO custom exceptions
+            throw new JwtMalformedException("Malformed JWT token");
         }catch (Exception e) {
-           //TODO custom exceptions
+           throw new JwtValidationException("Invalid JWT token");
         }
-        return false;
     }
 
     public Claims getAccessClaims(String token) {
