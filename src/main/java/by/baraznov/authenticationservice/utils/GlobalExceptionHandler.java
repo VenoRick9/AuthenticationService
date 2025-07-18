@@ -30,6 +30,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleJwtSignatureException(JwtSignatureException ex) {
         return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
+
     @ExceptionHandler(JwtValidationException.class)
     public ResponseEntity<ErrorResponse> handleJwtValidationException(JwtValidationException ex) {
         return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
@@ -39,6 +40,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex) {
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
+
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(UserAlreadyExistException ex) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler(PasswordException.class)
     public ResponseEntity<ErrorResponse> handlePasswordException(PasswordException ex) {
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());

@@ -8,8 +8,10 @@ import by.baraznov.authenticationservice.models.User;
 import by.baraznov.authenticationservice.securities.JwtProvider;
 import by.baraznov.authenticationservice.utils.JwtValidationException;
 import by.baraznov.authenticationservice.utils.PasswordException;
+import by.baraznov.authenticationservice.utils.UserAlreadyExistException;
 import by.baraznov.authenticationservice.utils.UserNotFoundException;
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.Servlet;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,7 @@ public class AuthService {
     private final UserService userService;
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
+    private final Servlet servlet;
 
     public ResponseDTO login(RequestDTO authRequest) {
         User user = userService.getUserByLogin(authRequest.login())
@@ -62,14 +65,18 @@ public class AuthService {
     }
 
     public ResponseDTO registration(RequestDTO authRequest) {
-        User user = User.builder()
-                .login(authRequest.login())
-                .password(passwordEncoder.encode(authRequest.password()))
-                .build();
-        userService.create(user);
-        String accessToken = jwtProvider.generateAccessToken(user);
-        String refreshToken = jwtProvider.generateRefreshToken(user);
-        return new ResponseDTO(accessToken, refreshToken);
+        if(!userService.existsByLogin(authRequest.login())) {
+            User user = User.builder()
+                    .login(authRequest.login())
+                    .password(passwordEncoder.encode(authRequest.password()))
+                    .build();
+            userService.create(user);
+            String accessToken = jwtProvider.generateAccessToken(user);
+            String refreshToken = jwtProvider.generateRefreshToken(user);
+            return new ResponseDTO(accessToken, refreshToken);
+        }else {
+            throw new UserAlreadyExistException("User already exists");
+        }
     }
 
     public JwtAuthentication getAuthInfo() {
