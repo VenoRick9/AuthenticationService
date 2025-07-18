@@ -1,11 +1,13 @@
 package by.baraznov.authenticationservice.securities;
 
 import by.baraznov.authenticationservice.models.JwtAuthentication;
+import by.baraznov.authenticationservice.utils.ErrorResponse;
 import by.baraznov.authenticationservice.utils.JwtExpiredException;
 import by.baraznov.authenticationservice.utils.JwtMalformedException;
 import by.baraznov.authenticationservice.utils.JwtSignatureException;
 import by.baraznov.authenticationservice.utils.JwtUtils;
 import by.baraznov.authenticationservice.utils.JwtValidationException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -30,6 +32,8 @@ public class JwtFilter extends GenericFilterBean {
     private static final String AUTHORIZATION = "Authorization";
 
     private final JwtProvider jwtProvider;
+    private final ObjectMapper objectMapper;
+
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
@@ -46,21 +50,16 @@ public class JwtFilter extends GenericFilterBean {
             filterChain.doFilter(servletRequest, servletResponse);
         }catch (JwtExpiredException | JwtSignatureException
                 | JwtMalformedException | JwtValidationException e){
-            sendErrorResponse(servletResponse, HttpStatus.UNAUTHORIZED, e.getMessage());
+            sendErrorResponse(servletResponse, e.getMessage());
         }
 
     }
-    private void sendErrorResponse(ServletResponse response, HttpStatus status, String message) throws IOException {
+    private void sendErrorResponse(ServletResponse response, String message) throws IOException {
         if(response instanceof HttpServletResponse httpServletResponse) {
-            httpServletResponse.setStatus(status.value());
             httpServletResponse.setContentType("application/json");
-            httpServletResponse.getWriter().write("""
-                        {
-                          "status": %d,
-                          "message": "%s",
-                          "timestamp": "%s"
-                        }
-                    """.formatted(status.value(), message, LocalDateTime.now()));
+            ErrorResponse dto = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), message, LocalDateTime.now());
+            String json = objectMapper.writeValueAsString(dto);
+            httpServletResponse.getWriter().write(json);
         }
     }
     private String getTokenFromRequest(HttpServletRequest request) {

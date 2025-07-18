@@ -1,6 +1,7 @@
-package by.baraznov.authenticationservice.securities;
+package by.baraznov.authenticationservice.config;
 
 
+import by.baraznov.authenticationservice.securities.JwtFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +43,8 @@ public class SecurityConfig {
                         c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         authz -> authz
-                                .requestMatchers("/auth/login", "/auth/registration").permitAll()
+                                .requestMatchers("/auth/login", "/auth/registration"
+                                , "auth/refresh").permitAll()
                                 .anyRequest().authenticated())
                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
