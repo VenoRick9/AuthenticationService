@@ -25,6 +25,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -47,8 +48,12 @@ public class SecurityConfig {
                                 , "auth/refresh").permitAll()
                                 .anyRequest().authenticated())
                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(c->
+                        c.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .build();
     }
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
