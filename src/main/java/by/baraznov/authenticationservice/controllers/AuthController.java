@@ -43,5 +43,4 @@ public class AuthController {
         ResponseDTO token = authService.registration(authRequest);
         return ResponseEntity.ok(token);
     }
-
 }

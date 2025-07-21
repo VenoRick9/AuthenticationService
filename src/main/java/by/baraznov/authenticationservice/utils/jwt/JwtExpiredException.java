@@ -1,4 +1,4 @@
-package by.baraznov.authenticationservice.utils;
+package by.baraznov.authenticationservice.utils.jwt;
 
 public class JwtExpiredException extends RuntimeException {
     public JwtExpiredException(String message) {

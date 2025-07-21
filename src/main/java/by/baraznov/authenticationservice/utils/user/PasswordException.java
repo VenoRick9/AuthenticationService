@@ -1,4 +1,4 @@
-package by.baraznov.authenticationservice.utils;
+package by.baraznov.authenticationservice.utils.user;
 
 public class PasswordException extends RuntimeException {
     public PasswordException(String message) {

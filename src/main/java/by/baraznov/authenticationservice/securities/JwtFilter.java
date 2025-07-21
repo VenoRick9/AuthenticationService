@@ -2,11 +2,11 @@ package by.baraznov.authenticationservice.securities;
 
 import by.baraznov.authenticationservice.models.JwtAuthentication;
 import by.baraznov.authenticationservice.utils.ErrorResponse;
-import by.baraznov.authenticationservice.utils.JwtExpiredException;
-import by.baraznov.authenticationservice.utils.JwtMalformedException;
-import by.baraznov.authenticationservice.utils.JwtSignatureException;
+import by.baraznov.authenticationservice.utils.jwt.JwtExpiredException;
+import by.baraznov.authenticationservice.utils.jwt.JwtMalformedException;
+import by.baraznov.authenticationservice.utils.jwt.JwtSignatureException;
 import by.baraznov.authenticationservice.utils.JwtUtils;
-import by.baraznov.authenticationservice.utils.JwtValidationException;
+import by.baraznov.authenticationservice.utils.jwt.JwtValidationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;

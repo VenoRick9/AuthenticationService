@@ -1,4 +1,4 @@
-package by.baraznov.authenticationservice.utils;
+package by.baraznov.authenticationservice.utils.jwt;
 
 public class JwtSignatureException extends RuntimeException {
     public JwtSignatureException(String message) {

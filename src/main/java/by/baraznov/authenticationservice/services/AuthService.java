@@ -3,17 +3,15 @@ package by.baraznov.authenticationservice.services;
 import by.baraznov.authenticationservice.dtos.RequestDTO;
 import by.baraznov.authenticationservice.dtos.ResponseDTO;
 import by.baraznov.authenticationservice.dtos.ValidDTO;
-import by.baraznov.authenticationservice.models.JwtAuthentication;
 import by.baraznov.authenticationservice.models.User;
 import by.baraznov.authenticationservice.securities.JwtProvider;
-import by.baraznov.authenticationservice.utils.JwtValidationException;
-import by.baraznov.authenticationservice.utils.PasswordException;
-import by.baraznov.authenticationservice.utils.UserAlreadyExistException;
-import by.baraznov.authenticationservice.utils.UserNotFoundException;
+import by.baraznov.authenticationservice.utils.jwt.JwtValidationException;
+import by.baraznov.authenticationservice.utils.user.PasswordException;
+import by.baraznov.authenticationservice.utils.user.UserAlreadyExistException;
+import by.baraznov.authenticationservice.utils.user.UserNotFoundException;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.Servlet;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -78,9 +76,4 @@ public class AuthService {
             throw new UserAlreadyExistException("User already exists");
         }
     }
-
-    public JwtAuthentication getAuthInfo() {
-        return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
-    }
-
 }

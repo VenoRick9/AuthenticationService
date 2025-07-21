@@ -1,6 +1,13 @@
 package by.baraznov.authenticationservice.utils;
 
 
+import by.baraznov.authenticationservice.utils.jwt.JwtExpiredException;
+import by.baraznov.authenticationservice.utils.jwt.JwtMalformedException;
+import by.baraznov.authenticationservice.utils.jwt.JwtSignatureException;
+import by.baraznov.authenticationservice.utils.jwt.JwtValidationException;
+import by.baraznov.authenticationservice.utils.user.PasswordException;
+import by.baraznov.authenticationservice.utils.user.UserAlreadyExistException;
+import by.baraznov.authenticationservice.utils.user.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
