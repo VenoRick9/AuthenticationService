@@ -57,6 +57,7 @@ public class JwtFilter extends GenericFilterBean {
     private void sendErrorResponse(ServletResponse response, String message) throws IOException {
         if(response instanceof HttpServletResponse httpServletResponse) {
             httpServletResponse.setContentType("application/json");
+            httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             ErrorResponse dto = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), message, LocalDateTime.now());
             String json = objectMapper.writeValueAsString(dto);
             httpServletResponse.getWriter().write(json);

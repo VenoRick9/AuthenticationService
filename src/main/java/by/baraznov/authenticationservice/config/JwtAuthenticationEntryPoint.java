@@ -27,6 +27,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private void sendErrorResponse(ServletResponse response) throws IOException {
         if(response instanceof HttpServletResponse httpServletResponse) {
             httpServletResponse.setContentType("application/json");
+            httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             ErrorResponse dto = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), JwtAuthenticationEntryPoint.MESSAGE, LocalDateTime.now());
             String json = objectMapper.writeValueAsString(dto);
             httpServletResponse.getWriter().write(json);
