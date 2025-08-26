@@ -62,12 +62,13 @@ public class AuthService {
         throw new JwtValidationException("Invalid JWT token, login to continue");
     }
 
-    public ResponseDTO registration(RequestDTO authRequest) {
+    public ResponseDTO register(RequestDTO authRequest) {
         if(!userService.existsByLogin(authRequest.login())) {
             User user = User.builder()
                     .login(authRequest.login())
                     .password(passwordEncoder.encode(authRequest.password()))
                     .build();
+            user.setId(authRequest.id());
             userService.create(user);
             String accessToken = jwtProvider.generateAccessToken(user);
             String refreshToken = jwtProvider.generateRefreshToken(user);
