@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authz -> authz
                                 .requestMatchers("/auth/login", "/auth/registration"
-                                , "/auth/refresh","actuator/health/**").permitAll()
+                                , "/auth/refresh","/auth/actuator/health/**").permitAll()
                                 .anyRequest().authenticated())
                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(c->
