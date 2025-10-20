@@ -36,7 +36,7 @@ class AuthControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
+    private static final Integer ID = 1;
     private static final String LOGIN = "testuser";
     private static final String PASSWORD = "testpass";
     private static String accessToken;
@@ -45,7 +45,7 @@ class AuthControllerTest {
     @Test
     @Order(1)
     void test_registration() throws Exception {
-        RequestDTO request = new RequestDTO(LOGIN, PASSWORD);
+        RequestDTO request = new RequestDTO(ID,LOGIN, PASSWORD);
 
         MvcResult result = mockMvc.perform(post("/auth/registration")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -69,7 +69,7 @@ class AuthControllerTest {
     @Test
     @Order(2)
     void test_login() throws Exception {
-        RequestDTO request = new RequestDTO(LOGIN, PASSWORD);
+        RequestDTO request = new RequestDTO(ID,LOGIN, PASSWORD);
 
         MvcResult result = mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -40,7 +40,7 @@ class AuthServiceTest {
 
     @Test
     void test_login() {
-        RequestDTO request = new RequestDTO("user", "pass");
+        RequestDTO request = new RequestDTO(1,"user", "pass");
         User user = User.builder().login("user").password("encoded").build();
 
         when(userService.getUserByLogin("user")).thenReturn(Optional.of(user));
@@ -85,8 +85,8 @@ class AuthServiceTest {
     }
 
     @Test
-    void test_registration() {
-        RequestDTO request = new RequestDTO("newuser", "12345");
+    void test_register() {
+        RequestDTO request = new RequestDTO(2,"newuser", "12345");
         when(userService.existsByLogin("newuser")).thenReturn(false);
         when(passwordEncoder.encode("12345")).thenReturn("encoded");
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
@@ -94,7 +94,7 @@ class AuthServiceTest {
         when(jwtProvider.generateAccessToken(any())).thenReturn("access");
         when(jwtProvider.generateRefreshToken(any())).thenReturn("refresh");
 
-        ResponseDTO response = authService.registration(request);
+        ResponseDTO response = authService.register(request);
 
         verify(userService).create(userCaptor.capture());
         assertEquals("newuser", userCaptor.getValue().getLogin());

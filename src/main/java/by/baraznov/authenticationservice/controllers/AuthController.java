@@ -40,7 +40,7 @@ public class AuthController {
 
     @PostMapping("/registration")
     public ResponseEntity<ResponseDTO> registration(@RequestBody RequestDTO authRequest) {
-        ResponseDTO token = authService.registration(authRequest);
+        ResponseDTO token = authService.register(authRequest);
         return ResponseEntity.ok(token);
     }
 }
